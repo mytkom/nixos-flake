@@ -55,7 +55,7 @@
 
   # Add stuff for your user as you see fit:
   programs.neovim.enable = true;
-  xdg.configFile.nvim.source = ./nvim;
+  xdg.configFile.nvim.source = ./neovim-config;
 
   home.packages = with pkgs; [
     	waybar
