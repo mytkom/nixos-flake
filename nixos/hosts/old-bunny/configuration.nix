@@ -99,6 +99,7 @@
 
   services.xserver = {
     enable = true;
+    layout = "us,pl";
     desktopManager = {
       xterm.enable = false;
       xfce.enable = true;
