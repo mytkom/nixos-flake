@@ -115,6 +115,7 @@
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr ];
 
+  virtualisation.docker.enable = true;
 
   networking.hostName = "old-bunny";
 
