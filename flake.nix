@@ -58,7 +58,14 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main nixos configuration file <
-          ./nixos/configuration.nix
+          ./nixos/hosts/old-bunny/configuration.nix
+        ];
+      };
+      levicorpus = inputs.nixpkgs-unstable.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          # > Our main nixos configuration file <
+          ./nixos/hosts/levicorpus/configuration.nix
         ];
       };
     };
@@ -67,6 +74,14 @@
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
       "mytkom@old-bunny" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          # > Our main home-manager configuration file <
+          ./home-manager/home.nix
+        ];
+      };
+      "mytkom@levicorpus" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [

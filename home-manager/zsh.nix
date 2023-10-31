@@ -5,6 +5,10 @@
     shellAliases = {
     	ls = "exa --icons";
 	    vim = "nvim";
+	    vi = "nvim";
+      dcu = "docker compose up -d";
+      dcb = "docker compose build";
+      dcd = "docker compose down";
     };
     enableAutosuggestions = true;
     enableCompletion = true;

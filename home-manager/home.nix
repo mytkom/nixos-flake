@@ -11,6 +11,7 @@
   # You can import other home-manager modules here
   imports = [
     ./zsh.nix
+    ./alacritty.nix
     # If you want to use modules your own flake exports (from modules/home-manager):
     # outputs.homeManagerModules.example
 
@@ -51,6 +52,9 @@
   home = {
     username = "mytkom";
     homeDirectory = "/home/mytkom";
+    sessionVariables = {
+      SHELL="${pkgs.zsh}/bin/zsh";
+    };
   };
 
   # Add stuff for your user as you see fit:
@@ -88,18 +92,22 @@
     	oh-my-zsh
     	gh
 	    nix-ld
-      gcc9
-      pkgconfig
-      zellij
+	    gcc9
+	    pkgconfig
+	    zellij
       libxkbcommon
       wayland
 
-    	# oh-my-zsh
-    	zsh-powerlevel10k
+      # oh-my-zsh
+      zsh-powerlevel10k
       ];
-  # Enable home-manager and git
+
   programs.home-manager.enable = true;
-  programs.git.enable = true;
+  programs.git = {
+    enable = true;
+    userName = "mytkom";
+    userEmail = "marek.mytkowski.mm@gmail.com";
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
