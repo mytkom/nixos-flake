@@ -4,7 +4,7 @@
 	path = home-manager/nvim/neovim-config
 	url = https://github.com/mytkom/neovim-config
 [submodule "home-manager/neovim-config"]
-	path = home-manager/neovim-config
+	path = home-manager/common/nvim/neovim-config
 	url = https://github.com/mytkom/neovim-config
 [submodule "home-manager/--force"]
 	path = home-manager/--force

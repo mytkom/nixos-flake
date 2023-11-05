@@ -1,5 +1,29 @@
 { pkgs, ... }:
 {
+  home.packages = with pkgs; [
+    	vim
+    	wget
+    	btop
+    	tldr
+    	git
+    	neofetch
+    	fzf
+    	font-awesome
+    	findutils
+    	eza
+    	go
+    	idasen
+    	oh-my-zsh
+    	gh
+	    nix-ld
+	    gcc9
+	    pkg-config
+	    zellij
+
+      # oh-my-zsh
+      zsh-powerlevel10k
+      ]; 
+
   programs.zsh = {
     enable = true;
     shellAliases = {

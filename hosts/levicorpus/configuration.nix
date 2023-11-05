@@ -15,6 +15,7 @@
 
     # Or modules from other flakes (such as nixos-hardware):
     inputs.hardware.nixosModules.common-cpu-amd
+    inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-laptop
     inputs.hardware.nixosModules.common-pc-laptop-ssd
 
@@ -45,7 +46,6 @@
     ];
     # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
     };
   };
@@ -60,32 +60,43 @@
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
 
     settings = {
-      # Enable flakes and new 'nix' command
       experimental-features = "nix-command flakes";
-      # Deduplicate and optimize nix store
       auto-optimise-store = true;
     };
   };
 
   environment.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";
   };
 
+  # Hardware
   hardware = {
     opengl.enable = true;
-    nvidia.modesetting.enable = true;
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.extraModulePackages = [ config.boot.kernelPackages.rtl8812au ];
-  networking.networkmanager.enable = true;
+  # Boot
+  boot = {
+    loader.systemd-boot.enable = true;
+    kernelPackages = pkgs.linuxPackages_latest;
+    extraModulePackages = [ config.boot.kernelPackages.rtl8812au ];
+  };
+
+  # Network
+  networking = {
+    networkmanager.enable = true;
+    hostName = "levicorpus";
+  };
+
+  # Locales
   time.timeZone = "Europe/Warsaw";
   i18n.defaultLocale = "en_US.UTF-8";
-  sound.enable = true;
+  services.locate.enable = true;
+
+  # Security
   security.rtkit.enable = true;
   security.polkit.enable = true;
-  nixpkgs.config.pulseaudio = true;
+  
+  # Audio
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -93,44 +104,54 @@
     pulse.enable = true;
     jack.enable = true;
   }; 
-# NerdFonts picking
+
+  # Udev
+  services.udev.extraRules = ''
+    RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/amdgpu_bl0/brightness" 
+    RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/amdgpu_bl0/brightness" 
+  '';
+
+  # NerdFonts picking
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
   ];
 
+  # Xserver
   services.xserver = {
     enable = true;
-    desktopManager = {
-      xterm.enable = false;
-      xfce.enable = true;
+    videoDrivers = ["amdgpu"];
+    displayManager.gdm = {
+      enable = true;
+      wayland = true;
     };
-    displayManager.defaultSession = "xfce";
-    xkbOptions = "caps:swapescape";
   };
 
-  console.useXkbConfig = true;
+  # Hyprland
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
 
-  services.locate.enable = true;
+  # Xdg
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr ];
+  };
 
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr ];
-
+  # Programs
   virtualisation.docker.enable = true;
-
-  networking.hostName = "levicorpus";
-
-  boot.loader.systemd-boot.enable = true;
   programs.zsh.enable = true;
 
+  # Users
   users.users = {
     mytkom = {
       initialPassword = "12345678";
       isNormalUser = true;
       shell = pkgs.zsh;
-      extraGroups = ["wheel" "tty" "video" "audio"];
+      extraGroups = ["wheel" "tty" "video" "audio" "docker"];
     };
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.05";
+  system.stateVersion = "23.11";
 }
