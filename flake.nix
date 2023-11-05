@@ -49,7 +49,7 @@
     homeManagerModules = import ./modules/home-manager;
 
     nixosConfigurations = {
-      old-bunny = inputs.nixpkgs-stable.lib.nixosSystem {
+      old-bunny = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/old-bunny/configuration.nix
@@ -65,7 +65,7 @@
 
     homeConfigurations = {
       "mytkom@old-bunny" = home-manager.lib.homeManagerConfiguration {
-        pkgs = inputs.nixpkgs-stable.legacyPackages.x86_64-linux;
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           ./home-manager/old-bunny.nix

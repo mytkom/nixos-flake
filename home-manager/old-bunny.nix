@@ -9,7 +9,6 @@
   imports = [
     ./common/zsh.nix
     ./common/alacritty.nix
-    ./common/hyprland
     ./common/nvim
     ./common/desktop-apps.nix
   ];
