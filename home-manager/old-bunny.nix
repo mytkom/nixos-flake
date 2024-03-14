@@ -28,6 +28,7 @@
   home = {
     username = "mytkom";
     homeDirectory = "/home/mytkom";
+    shell = pkgs.zsh;
     sessionVariables = {
       SHELL="${pkgs.zsh}/bin/zsh";
       CGO_CFLAGS="-I${inputs.nixpkgs-stable.legacyPackages.x86_64-linux.csfml}/include";

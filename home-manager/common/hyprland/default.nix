@@ -18,5 +18,6 @@
       pavucontrol
       libxkbcommon
       wayland
+      xclip
   ];
 }

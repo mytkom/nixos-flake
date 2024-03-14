@@ -9,7 +9,6 @@
   imports = [
     ./common/zsh.nix
     ./common/alacritty.nix
-    ./common/hyprland
     ./common/nvim
     ./common/desktop-apps.nix
   ];
@@ -31,15 +30,17 @@
     homeDirectory = "/home/mytkom";
     sessionVariables = {
       SHELL="${pkgs.zsh}/bin/zsh";
-      CGO_CFLAGS="-I${inputs.nixpkgs-stable.legacyPackages.x86_64-linux.csfml}/include";
-      CGO_LDFLAGS="-L${inputs.nixpkgs-stable.legacyPackages.x86_64-linux.csfml}/lib/gcc";
     };
   };
 
-  home.packages = with inputs.nixpkgs-stable.legacyPackages.x86_64-linux; [
-      sfml
-      csfml
-      ];
+  dconf.settings = {
+    "org.gnome.desktop.input-sources" = {
+      xkb-options = "['caps:escape']";
+    };
+    "org.gnome.mutter" = {
+      experimental-features = "['scale-monitor-framebuffer']";
+    };
+  };
 
   programs.home-manager.enable = true;
   programs.git = {
@@ -47,6 +48,13 @@
     userName = "mytkom";
     userEmail = "marek.mytkowski.mm@gmail.com";
   };
+
+  home.file.".config/idasen/idasen.yaml".text = ''
+    mac_address: E3:02:D4:42:35:4F
+    positions:
+      sit: 0.75
+      stand: 1.25
+  '';
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

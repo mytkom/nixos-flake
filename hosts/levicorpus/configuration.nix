@@ -72,6 +72,7 @@
   # Hardware
   hardware = {
     opengl.enable = true;
+    pulseaudio.enable = false;
   };
 
   # Boot
@@ -103,7 +104,39 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
-  }; 
+  };
+
+  # Printing
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      foomatic-db-nonfree
+      foomatic-db-ppds-withNonfreeDb
+      gutenprint
+      cnijfilter2
+    ];
+  };
+
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    openFirewall = true;
+  };
+
+  hardware.printers = {
+    ensurePrinters = [
+    {
+      name = "Canon3225(MINI)";
+      location = "Uni";
+      deviceUri = "smb://duodecimus.mini.pw.edu.pl/wirtualna";
+      model = "foomatic-db-ppds/Canon-imageRunner_3225-pxlmono.ppd.gz";
+      ppdOptions = {
+        PageSize = "A4";
+      };
+    }
+    ];
+    ensureDefaultPrinter = "Canon3225(MINI)";
+  };  
 
   # Udev
   services.udev.extraRules = ''
@@ -120,23 +153,67 @@
   services.xserver = {
     enable = true;
     videoDrivers = ["amdgpu"];
+    desktopManager.gnome = {
+      enable = true;
+    };
     displayManager.gdm = {
       enable = true;
-      wayland = true;
     };
   };
 
-  # Hyprland
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
+  # Gnome
+  environment = {
+    systemPackages = with pkgs; [
+      gnome.adwaita-icon-theme
+      gnomeExtensions.appindicator
+      gedit
+      qemu
+    ];
+    gnome.excludePackages = (with pkgs; [
+        gnome-photos
+        gnome-tour
+    ]) ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-music
+      gnome-terminal
+      epiphany # web browser
+      geary # email reader
+      evince # document viewer
+      gnome-characters
+      totem # video player
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]);
+    etc = {
+      "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
+        bluez_monitor.properties = {
+          ["bluez5.enable-sbc-xq"] = true,
+          ["bluez5.enable-msbc"] = true,
+          ["bluez5.enable-hw-volume"] = true,
+          ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+        }
+      '';
+    };
   };
+  programs.dconf.enable = true;
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
-  # Xdg
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr ];
-  };
+#  # Hyprland
+#  programs.hyprland = {
+#    enable = true;
+#    xwayland.enable = true;
+#  };
+
+  # Nix-ld
+  programs.nix-ld.enable = true;
+
+#  # Xdg
+#  xdg.portal = {
+#    enable = true;
+#    extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr ];
+#  };
 
   # Programs
   virtualisation.docker.enable = true;
@@ -151,6 +228,7 @@
       extraGroups = ["wheel" "tty" "video" "audio" "docker"];
     };
   };
+  users.defaultUserShell = pkgs.zsh;
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";

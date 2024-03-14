@@ -3,30 +3,13 @@
     extraConfig = ''
       exec-once = swaybg -i ${./assets/wallpaper.jpg} -m fill
       exec-once = waybar
-      exec-once = hyprctl setcursor Future-cursors 24
       exec-once = nm-applet --indicator
       exec-once = dunst
       exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-      exec-once = swayidle -w timeout 200 'swaylock-fancy' 
 
-      env = WLR_NO_HARDWARE_CURSORS,1
-      env = GDK_BACKEND,wayland,x11
-      env = QT_QPA_PLATFORM,wayland;xcb
-      env = SDL_VIDEODRIVER,wayland
-      env = CLUTTER_BACKEND,wayland
       env = XDG_CURRENT_DESKTOP,Hyprland
       env = XDG_SESSION_TYPE,wayland
       env = XDG_SESSION_DESKTOP,Hyprland
-      env = GTK_THEME,Breeze-Dark
-      env = QT_STYLE_OVERRIDE,Breeze
-      env = QT_QPA_PLATFORMTHEME,qt5ct
-      env = XCURSOR_THEME,Future-cursors
-      env = XCURSOR_SIZE,24
-      env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
-      env = QT_AUTO_SCREEN_SCALE_FACTOR,1
-      env = QT_SCALE_FACTOR,1.5
-      env = GDK_SCALE,1.5
-      env = ELM_SCALE,1.5
 
       monitor=eDP-1,highres,auto,1.25
 
@@ -78,7 +61,7 @@
 
       $mod = SUPER
 
-      bind = $mod, Q, exec, kitty
+      bind = $mod, Q, exec, alacritty
       bind = $mod, B, exec, brave
       bind = $mod, S, exec, rofi -show drun
       bind = $mod, C, killactive,
@@ -89,6 +72,12 @@
       bind = $mod, right, movefocus, r
       bind = $mod, up, movefocus, u
       bind = $mod, down, movefocus, d
+
+      # Fullscreen
+      bind = $mod, F, fullscreen, 0
+
+      # Floating
+      bind = $mod, T, togglefloating, active
 
       # Workspace switch
       bind = $mod, 1, workspace, 1
@@ -117,6 +106,9 @@
       # Move between neighbour workspaces
       bind = $mod SHIFT, left, workspace, e-1
       bind = $mod SHIFT, right, workspace, e+1
+
+      # Screenshots
+      bind = $mod SHIFT, S, exec, grimblast copy area
 
       binde=, XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
       binde=, XF86AudioLowerVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-

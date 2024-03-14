@@ -15,9 +15,6 @@
     	idasen
     	oh-my-zsh
     	gh
-	    nix-ld
-	    gcc9
-	    pkg-config
 	    zellij
 
       # oh-my-zsh
@@ -33,6 +30,7 @@
       dcu = "docker compose up -d";
       dcb = "docker compose build";
       dcd = "docker compose down";
+      dce = "docker compose exec";
     };
     enableAutosuggestions = true;
     enableCompletion = true;
