@@ -31,6 +31,7 @@
       dcb = "docker compose build";
       dcd = "docker compose down";
       dce = "docker compose exec";
+      obsidian-clean-GPUcache = "rm -rf ~/.config/obsidian/GPUCache/";
     };
     enableAutosuggestions = true;
     enableCompletion = true;
