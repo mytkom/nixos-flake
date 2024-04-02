@@ -1,3 +1,0 @@
-[submodule "home-manager/common/nvim/neovim-config"]
-	url = https://github.com/mytkom/neovim-config
-	path = home-manager/common/nvim/neovim-config

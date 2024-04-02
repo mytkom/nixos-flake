@@ -1,5 +1,3 @@
-# This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
   outputs,
@@ -8,55 +6,29 @@
   pkgs,
   ...
 }: {
-  # You can import other NixOS modules here
-  imports = [
-    # If you want to use modules your own flake exports (from modules/nixos):
-    # outputs.nixosModules.example
+  imports = with inputs.hardware.nixosModules; [
+    common-cpu-amd
+    common-gpu-amd
+    common-pc-laptop
+    common-pc-laptop-ssd
 
-    # Or modules from other flakes (such as nixos-hardware):
-    inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.common-gpu-amd
-    inputs.hardware.nixosModules.common-pc-laptop
-    inputs.hardware.nixosModules.common-pc-laptop-ssd
-
-    # You can also split up your configuration and import pieces of it here:
-    # ./users.nix
-
-    # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
 
   nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-
-      # You can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
+    overlays = with outputs.overlays; [
+      additions
+      modifications
+      unstable-packages
     ];
-    # Configure your nixpkgs instance
+
     config = {
       allowUnfree = true;
     };
   };
 
   nix = {
-    # This will add each flake input as a registry
-    # To make nix3 commands consistent with your flake
     registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
-
-    # This will additionally add your inputs to the system's legacy channels
-    # Making legacy nix commands consistent as well, awesome!
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
 
     settings = {
@@ -69,20 +41,17 @@
     NIXOS_OZONE_WL = "1";
   };
 
-  # Hardware
   hardware = {
     opengl.enable = true;
     pulseaudio.enable = false;
   };
 
-  # Boot
   boot = {
     loader.systemd-boot.enable = true;
     kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = [ config.boot.kernelPackages.rtl8812au ];
   };
 
-  # Network
   networking = {
     networkmanager.enable = true;
     hostName = "levicorpus";
@@ -96,7 +65,8 @@
   # Security
   security.rtkit.enable = true;
   security.polkit.enable = true;
-  
+
+
   # Audio
   services.pipewire = {
     enable = true;
@@ -119,7 +89,7 @@
 
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
     openFirewall = true;
   };
 
@@ -136,16 +106,35 @@
     }
     ];
     ensureDefaultPrinter = "Canon3225(MINI)";
-  };  
+  };
+
+  # Battery life
+  services = {
+    system76-scheduler.settings.cfsProfiles.enable = true;
+    tlp = {
+      enable = true;
+      settings = {
+        PCIE_ASPM_ON_BAT = "powersupersave";
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+        STOP_CHARGE_THRESH_BAT1 = "95";
+        CPU_MAX_PERF_ON_AC = "100";
+        CPU_MAX_PERF_ON_BAT = "30";
+      };
+    };
+    logind.killUserProcesses = true;
+    power-profiles-daemon.enable = false;
+  };
+  powerManagement.powertop.enable = true;
 
   # Udev
   services.udev.extraRules = ''
-    RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/amdgpu_bl0/brightness" 
-    RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/amdgpu_bl0/brightness" 
+    RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/amdgpu_bl0/brightness"
+    RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/amdgpu_bl0/brightness"
   '';
 
   # NerdFonts picking
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
   ];
 
@@ -200,20 +189,8 @@
   programs.dconf.enable = true;
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
-#  # Hyprland
-#  programs.hyprland = {
-#    enable = true;
-#    xwayland.enable = true;
-#  };
-
   # Nix-ld
   programs.nix-ld.enable = true;
-
-#  # Xdg
-#  xdg.portal = {
-#    enable = true;
-#    extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr ];
-#  };
 
   # Programs
   virtualisation.docker.enable = true;
