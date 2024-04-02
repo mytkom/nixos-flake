@@ -1,32 +1,30 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    	vim
-    	wget
-    	btop
-    	tldr
-    	git
-    	neofetch
-    	fzf
-    	font-awesome
-    	findutils
-    	eza
-    	go
-    	idasen
-    	oh-my-zsh
-    	gh
-	    zellij
-
-      # oh-my-zsh
-      zsh-powerlevel10k
-      ]; 
+    vim
+    wget
+    btop
+    tldr
+    git
+    neofetch
+    fzf
+    font-awesome
+    findutils
+    eza
+    go
+    idasen
+    oh-my-zsh
+    gh
+    zellij
+    zsh-powerlevel10k
+  ];
 
   programs.zsh = {
     enable = true;
     shellAliases = {
-    	ls = "exa --icons";
-	    vim = "nvim";
-	    vi = "nvim";
+      ls = "exa --icons";
+      vim = "nvim";
+      vi = "nvim";
       dcu = "docker compose up -d";
       dcb = "docker compose build";
       dcd = "docker compose down";
@@ -37,8 +35,8 @@
     enableCompletion = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ 
-	      "git"
+      plugins = [
+       "git"
       ];
     };
     initExtra = ''

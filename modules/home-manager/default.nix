@@ -1,6 +1,12 @@
-# Add your reusable home-manager modules to this directory, on their own file (https://nixos.wiki/wiki/Module).
-# These should be stuff you would like to share with others, not your personal configurations.
 {
   # List your module files here
-  # my-module = import ./my-module.nix;
+  dconf = import ./dconf.nix;
+  idasen = import ./idasen.nix;
+  git = import ./git.nix;
+  home-setup = import ./home-setup.nix;
+  zsh = import ./zsh.nix;
+  alacritty = import ./alacritty.nix;
+  nvim = import ./nvim.nix;
+  common-apps = import ./common-apps.nix;
+  hyprland = import ./hyprland;
 }
