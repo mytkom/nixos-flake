@@ -29,7 +29,8 @@
       manix
       nil
       clang-tools
-
+      nodePackages.typescript-language-server
+      gopls
     ];
     extraConfig = ''
         set foldexpr=nvim_treesitter#foldexpr()
@@ -142,7 +143,7 @@
           },
         }
 
-        local servers = { 'clangd', 'nil_ls' }
+        local servers = { 'clangd', 'nil_ls', 'tsserver', 'gopls' }
         for _, lsp in ipairs(servers) do
           require('lspconfig')[lsp].setup {
             capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
