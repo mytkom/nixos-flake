@@ -1,6 +1,6 @@
-{ lib, python3, fetchPypi }:
+{ lib, python310, fetchPypi }:
 
-python3.pkgs.buildPythonApplication rec {
+python310.pkgs.buildPythonApplication rec {
   pname = "alibuild";
   version = "1.14.6";
 
@@ -10,7 +10,7 @@ python3.pkgs.buildPythonApplication rec {
   };
 
   doCheck = false;
-  propagatedBuildInputs = with python3.pkgs; [
+  propagatedBuildInputs = with python310.pkgs; [
     requests
     pyyaml
     boto3

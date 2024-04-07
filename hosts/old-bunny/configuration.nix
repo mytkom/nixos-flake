@@ -67,9 +67,13 @@
     };
   };
 
-  environment.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1";
-    NIXOS_OZONE_WL = "1";
+
+  environment = {
+    sessionVariables = {
+      WLR_NO_HARDWARE_CURSORS = "1";
+      NIXOS_OZONE_WL = "1";
+    };
+    systemPackages = [ pkgs.qemu ];
   };
 
   hardware = {
@@ -78,7 +82,7 @@
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.extraModulePackages = [ config.boot.kernelPackages.rtl8812au ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.rtl88x2bu ];
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Warsaw";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -119,13 +123,22 @@
 
   networking.hostName = "old-bunny";
 
-  boot.loader.systemd-boot.enable = true;
+  boot.loader = {
+    efi.efiSysMountPoint = "/boot/efi";
+    grub = {
+      enable = true;
+      efiSupport = true;
+      device = "nodev";
+    };
+  };
+
+  programs.nix-ld.enable = true;
 
   users.users = {
     mytkom = {
       initialPassword = "12345678";
       isNormalUser = true;
-      extraGroups = ["wheel" "tty" "video" "audio"];
+      extraGroups = ["wheel" "tty" "video" "audio" "docker"];
     };
   };
 
