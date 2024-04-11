@@ -12,6 +12,8 @@
     common-pc-laptop
     common-pc-laptop-ssd
 
+    inputs.self.nixosModules.gnome
+
     ./hardware-configuration.nix
   ];
 

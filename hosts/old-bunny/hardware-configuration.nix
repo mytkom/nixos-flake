@@ -18,19 +18,14 @@
       fsType = "ext4";
     };
 
-  fileSystems."/boot/efi" =
-    { device = "/dev/disk/by-uuid/180E-8AA1";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" =
+   { device = "/dev/disk/by-uuid/180E-8AA1";
+     fsType = "vfat";
+   };
 
   fileSystems."/var/lib/docker/overlay2/22a4aa8d46a394b2de2473061f1658e4049d97debe524c361d44bdcd97754585/merged" =
     { device = "overlay";
       fsType = "overlay";
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/ebd2af5f-82ca-4f32-a008-fd81843de9d0";
-      fsType = "xfs";
     };
 
   swapDevices =

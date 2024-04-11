@@ -9,14 +9,17 @@
   ...
 }: {
   # You can import other NixOS modules here
-  imports = [
+  imports = with inputs.hardware.nixosModules; [
     # If you want to use modules your own flake exports (from modules/nixos):
     # outputs.nixosModules.example
 
     # Or modules from other flakes (such as nixos-hardware):
-    inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
-    inputs.hardware.nixosModules.common-cpu-intel
-    inputs.hardware.nixosModules.common-pc-ssd
+    common-gpu-nvidia-nonprime
+    common-cpu-intel
+    common-pc-ssd
+
+    inputs.self.nixosModules.gnome
+
 
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
@@ -89,46 +92,29 @@
   sound.enable = true;
   security.rtkit.enable = true;
   security.polkit.enable = true;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
-  }; 
-# NerdFonts picking
+  };
+
+  # NerdFonts picking
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
   ];
 
-  services.xserver = {
-    enable = true;
-    layout = "us,pl";
-    desktopManager = {
-      xterm.enable = false;
-      xfce.enable = true;
-    };
-    displayManager.defaultSession = "xfce";
-    xkbOptions = "caps:swapescape";
-  };
-
-  console.useXkbConfig = true;
-
   services.locate.enable = true;
-
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr ];
 
   virtualisation.docker.enable = true;
 
   networking.hostName = "old-bunny";
 
   boot.loader = {
-    efi.efiSysMountPoint = "/boot/efi";
-    grub = {
+    systemd-boot = {
       enable = true;
-      efiSupport = true;
-      device = "nodev";
     };
   };
 
