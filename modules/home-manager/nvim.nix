@@ -26,6 +26,7 @@
       ripgrep
       git
       fd
+      zls
       manix
       nil
       clang-tools
@@ -107,7 +108,6 @@
         }
 
         -- LSP + nvim-cmp setup
-        local lspc = require('lspconfig')
         local cmp = require("cmp")
         cmp.setup {
           sources = {
@@ -143,7 +143,7 @@
           },
         }
 
-        local servers = { 'clangd', 'nil_ls', 'tsserver', 'gopls' }
+        local servers = { 'clangd', 'nil_ls', 'tsserver', 'gopls', 'zls' }
         for _, lsp in ipairs(servers) do
           require('lspconfig')[lsp].setup {
             capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
