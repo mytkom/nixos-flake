@@ -142,14 +142,7 @@
 
   # Xserver
   services.xserver = {
-    enable = true;
     videoDrivers = ["amdgpu"];
-    desktopManager.gnome = {
-      enable = true;
-    };
-    displayManager.gdm = {
-      enable = true;
-    };
   };
 
   # Gnome

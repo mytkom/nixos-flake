@@ -3,8 +3,13 @@
   # Xserver
   services.xserver = {
     enable = true;
+    xkb.layout = "pl";
     desktopManager.gnome = {
       enable = true;
+      extraGSettingsOverrides = ''
+      [org.gnome.desktop.input-sources]
+      xkb-options=['caps:escape']
+      '';
     };
     displayManager.gdm = {
       enable = true;

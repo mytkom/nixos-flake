@@ -23,11 +23,6 @@
      fsType = "vfat";
    };
 
-  fileSystems."/var/lib/docker/overlay2/22a4aa8d46a394b2de2473061f1658e4049d97debe524c361d44bdcd97754585/merged" =
-    { device = "overlay";
-      fsType = "overlay";
-    };
-
   swapDevices =
     [ { device = "/dev/disk/by-uuid/ece61bd1-b685-485d-a040-c4bee725ed90"; }
     ];
