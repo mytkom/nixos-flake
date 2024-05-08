@@ -11,6 +11,7 @@
     common-pc-ssd
 
     inputs.self.nixosModules.gnome
+    inputs.self.nixosModules.blocked-hosts
 
     ./hardware-configuration.nix
   ];

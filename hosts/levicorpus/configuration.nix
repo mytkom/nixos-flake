@@ -8,11 +8,11 @@
 }: {
   imports = with inputs.hardware.nixosModules; [
     common-cpu-amd
-    common-gpu-amd
-    common-pc-laptop
     common-pc-laptop-ssd
+    lenovo-thinkpad-t495
 
     inputs.self.nixosModules.gnome
+    inputs.self.nixosModules.blocked-hosts
 
     ./hardware-configuration.nix
   ];
@@ -76,6 +76,13 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
+  };
+
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.settings = {
+    General = {
+      Enable = "Source,Sink,Media,Socket";
+    };
   };
 
   # Printing
