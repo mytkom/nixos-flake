@@ -45,6 +45,13 @@
           ./hosts/levicorpus/configuration.nix
         ];
       };
+      esprimo = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/esprimo/configuration.nix
+        ];
+      };
+
     };
 
     homeConfigurations = {
