@@ -33,6 +33,13 @@
       };
     };
   };
+
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = true;
+    settings.KbdInteractiveAuthentication = true;
+    settings.PermitRootLogin = "yes";
+  };
   
   services.samba-wsdd = {
     enable = true;
