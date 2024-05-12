@@ -129,6 +129,7 @@
         STOP_CHARGE_THRESH_BAT1 = "95";
         CPU_MAX_PERF_ON_AC = "100";
         CPU_MAX_PERF_ON_BAT = "30";
+        RUNTIME_PM_DRIVER_DENYLIST="mei_me nouveau radeon xhci_hcd";
       };
     };
     logind.killUserProcesses = true;
