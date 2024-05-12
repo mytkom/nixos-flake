@@ -10,7 +10,6 @@
       caprine-bin
       insomnia
       prismlauncher
-      jetbrains.clion
       mplayer
       libreoffice
   ];

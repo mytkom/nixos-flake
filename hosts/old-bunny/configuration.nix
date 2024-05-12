@@ -37,6 +37,7 @@
     };
   };
 
+  services.xserver.displayManager.gdm.wayland = false;
 
   environment = {
     systemPackages = [ pkgs.qemu ];
@@ -60,7 +61,7 @@
   services.xserver.videoDrivers = [ "nvidia" ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.extraModulePackages = [ config.boot.kernelPackages.rtl88x2bu ];
+  boot.extraModulePackages = [];
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Warsaw";
   i18n.defaultLocale = "en_US.UTF-8";

@@ -27,6 +27,7 @@
       git
       fd
       zls
+      csharp-ls
       manix
       nil
       clang-tools
@@ -143,7 +144,7 @@
           },
         }
 
-        local servers = { 'clangd', 'nil_ls', 'tsserver', 'gopls', 'zls' }
+        local servers = { 'clangd', 'nil_ls', 'tsserver', 'gopls', 'zls', 'csharp_ls' }
         for _, lsp in ipairs(servers) do
           require('lspconfig')[lsp].setup {
             capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
