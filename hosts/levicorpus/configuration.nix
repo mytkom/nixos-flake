@@ -51,7 +51,7 @@
   boot = {
     loader.systemd-boot.enable = true;
     kernelPackages = pkgs.linuxPackages_latest;
-    extraModulePackages = [ config.boot.kernelPackages.rtl8812au ];
+    extraModulePackages = [ ];
   };
 
   networking = {
@@ -123,13 +123,15 @@
     tlp = {
       enable = true;
       settings = {
-        PCIE_ASPM_ON_BAT = "powersupersave";
         CPU_SCALING_GOVERNOR_ON_AC = "performance";
         CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
         STOP_CHARGE_THRESH_BAT1 = "95";
         CPU_MAX_PERF_ON_AC = "100";
-        CPU_MAX_PERF_ON_BAT = "30";
-        RUNTIME_PM_DRIVER_DENYLIST="mei_me nouveau radeon xhci_hcd";
+        CPU_MAX_PERF_ON_BAT = "50";
+        AHCI_RUNTIME_PM_ON_BAT="on";
+        # RUNTIME_PM_DRIVER_DENYLIST="mei_me nouveau radeon ahci";
+        # USB_DENYLIST="1d6b:0002 1d6b:0003 13fe:4300";
+        # RUNTIME_PM_DENYLIST="05:00.3 05:00.4";
       };
     };
     logind.killUserProcesses = true;
@@ -178,16 +180,6 @@
       hitori # sudoku game
       atomix # puzzle game
     ]);
-    etc = {
-      "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
-        bluez_monitor.properties = {
-          ["bluez5.enable-sbc-xq"] = true,
-          ["bluez5.enable-msbc"] = true,
-          ["bluez5.enable-hw-volume"] = true,
-          ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
-        }
-      '';
-    };
   };
   programs.dconf.enable = true;
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];

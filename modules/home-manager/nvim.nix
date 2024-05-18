@@ -158,13 +158,37 @@
           vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
           vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
         end
-        local servers = { 'clangd', 'nil_ls', 'tsserver', 'gopls', 'zls', 'csharp_ls' }
+
+        local lspconfig = require("lspconfig");
+        local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities());
+        local servers = { 'nil_ls', 'tsserver', 'gopls', 'zls', 'csharp_ls' }
         for _, lsp in ipairs(servers) do
-          require('lspconfig')[lsp].setup {
-            capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+          lspconfig[lsp].setup {
+            capabilities = capabilities,
             on_attach = on_attach,
           }
         end
+
+        lspconfig["clangd"].setup {
+          capabilities = capabilities,
+          filetypes = { "c", "cpp", "objc", "objcpp", "hpp", "cu", "cuh", "h" },
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders"
+          },
+          init_options = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            clangdFileStatus = true,
+            semanticHighlighting = true
+          },
+          on_attach = on_attach,
+          flags = { debounce_text_changes = 150 }
+        }
 
 
         local mark = require("harpoon.mark")
