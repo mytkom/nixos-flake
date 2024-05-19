@@ -31,7 +31,7 @@
       dce = "docker compose exec";
       obsidian-clean-GPUcache = "rm -rf ~/.config/obsidian/GPUCache/";
     };
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
     oh-my-zsh = {
       enable = true;
