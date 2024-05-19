@@ -1,6 +1,8 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
       brave
+      igv
+      samtools
       obsidian
       dbeaver
       spotify
