@@ -45,7 +45,7 @@
     ]);
   };
   # Set up the Touchegg daemon for trackpad gestures
-  systemd.user.services.touchegg = {
+  services.touchegg = {
     enable = true;
   };
 }
