@@ -21,6 +21,8 @@
     systemPackages = with pkgs; [
       gnome.adwaita-icon-theme
       gnomeExtensions.appindicator
+      gnomeExtensions.x11-gestures
+      touchegg
       gedit
       qemu
     ];
@@ -41,5 +43,9 @@
       hitori # sudoku game
       atomix # puzzle game
     ]);
+  };
+  # Set up the Touchegg daemon for trackpad gestures
+  systemd.user.services.touchegg = {
+    enable = true;
   };
 }

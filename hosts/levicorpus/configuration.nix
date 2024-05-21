@@ -137,7 +137,7 @@
     logind.killUserProcesses = true;
     power-profiles-daemon.enable = false;
   };
-  powerManagement.powertop.enable = true;
+  powerManagement.powertop.enable = false;
 
   # Udev
   services.udev.extraRules = ''
@@ -153,34 +153,9 @@
   # Xserver
   services.xserver = {
     videoDrivers = ["amdgpu"];
+    libinput.enable = true;
   };
 
-  # Gnome
-  environment = {
-    systemPackages = with pkgs; [
-      gnome.adwaita-icon-theme
-      gnomeExtensions.appindicator
-      gedit
-      qemu
-    ];
-    gnome.excludePackages = (with pkgs; [
-        gnome-photos
-        gnome-tour
-    ]) ++ (with pkgs.gnome; [
-      cheese # webcam tool
-      gnome-music
-      gnome-terminal
-      epiphany # web browser
-      geary # email reader
-      evince # document viewer
-      gnome-characters
-      totem # video player
-      tali # poker game
-      iagno # go game
-      hitori # sudoku game
-      atomix # puzzle game
-    ]);
-  };
   programs.dconf.enable = true;
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
@@ -197,7 +172,7 @@
       initialPassword = "12345678";
       isNormalUser = true;
       shell = pkgs.zsh;
-      extraGroups = ["wheel" "tty" "video" "audio" "docker"];
+      extraGroups = ["wheel" "tty" "video" "audio" "docker" "input"];
     };
   };
   users.defaultUserShell = pkgs.zsh;
