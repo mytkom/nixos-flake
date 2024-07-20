@@ -7,6 +7,7 @@
       dbeaver
       spotify
       discord
+      gimp
       google-chrome
       grimblast
       caprine-bin
@@ -14,6 +15,9 @@
       prismlauncher
       mplayer
       libreoffice
+      python3
+      jetbrains.pycharm-professional
+      python311Packages.pyzmq
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
