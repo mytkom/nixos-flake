@@ -106,6 +106,8 @@
         vim.opt.list = true
         vim.opt.listchars = {
             eol = "↴",
+            tab = '▸ ',
+            trail = '·'
         }
 
         -- LSP + nvim-cmp setup

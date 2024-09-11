@@ -18,6 +18,7 @@
       python3
       jetbrains.pycharm-professional
       python311Packages.pyzmq
+      vscode-fhs
   ];
 
   nixpkgs.config.permittedInsecurePackages = [

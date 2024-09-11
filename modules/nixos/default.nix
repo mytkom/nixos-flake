@@ -4,4 +4,5 @@
   # List your module files here
   gnome = import ./gnome.nix;
   blocked-hosts = import ./blocked-hosts.nix;
+  tailscale = import ./tailscale.nix;
 }
