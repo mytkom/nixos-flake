@@ -29,6 +29,7 @@
       dcb = "docker compose build";
       dcd = "docker compose down";
       dce = "docker compose exec";
+      dwarf = "ssh -oHostKeyAlgorithms=+ssh-rsa marekm@dwarf.if.pw.edu.pl";
       obsidian-clean-GPUcache = "rm -rf ~/.config/obsidian/GPUCache/";
     };
     autosuggestion.enable = true;
