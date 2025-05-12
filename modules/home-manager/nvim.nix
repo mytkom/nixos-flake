@@ -3,9 +3,11 @@
     enable = true;
     plugins = with pkgs.vimPlugins; [
       nvim-lspconfig
+      molten-nvim
+      image-nvim # for image rendering
       (nvim-treesitter.withAllGrammars)
       vim-nix
-      nvim-compe
+      nvim-cmp
       luasnip
       harpoon
       plenary-nvim
@@ -33,6 +35,20 @@
       clang-tools
       nodePackages.typescript-language-server
       gopls
+      python3
+      pyright  # Python LSP
+      imagemagick # for image rendering
+    ];
+    extraLuaPackages = ps: with ps; [
+      magick # for image rendering
+    ];
+    extraPython3Packages = ps: with ps; [
+      pynvim
+      jupyter-client
+      cairosvg # for image rendering
+      pnglatex # for image rendering
+      plotly # for image rendering
+      pyperclip
     ];
     extraConfig = ''
         set foldexpr=nvim_treesitter#foldexpr()
@@ -161,9 +177,21 @@
           vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
         end
 
+        vim.cmd [[ autocmd FileType python silent! MoltenInit ]]
+
+        -- Keybindings for molten.nvim
+        vim.keymap.set("n", "<leader>mr", "<cmd>MoltenEvaluateOperator<cr>", { silent = true, desc = "run operator selection" })
+        vim.keymap.set("n", "<leader>ml", "<cmd>MoltenEvaluateLine<cr>", { silent = true, desc = "evaluate line" })
+        vim.keymap.set("v", "<leader>mv", "<C-u><cmd>MoltenEvaluateVisual<cr>gv", { silent = true, desc = "evaluate visual selection" })
+        vim.keymap.set("n", "<leader>mo", "<cmd>MoltenShowOutput<cr>", { silent = true })
+        vim.keymap.set("n", "<leader>mrr", "<cmd>MoltenReevaluateCell<cr>", { silent = true, desc = "re-evaluate cell" })
+        vim.keymap.set("n", "<leader>md", "<cmd>MoltenDelete<cr>", { silent = true, desc = "molten delete cell" })
+        vim.keymap.set("n", "<leader>mh", "<cmd>MoltenHideOutput<cr>", { silent = true, desc = "hide output" })
+        vim.keymap.set("n", "<leader>ms", ":noautocmd MoltenEnterOutput<cr>", { silent = true, desc = "show/enter output" })
+
         local lspconfig = require("lspconfig");
         local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities());
-        local servers = { 'nil_ls', 'tsserver', 'gopls', 'zls', 'csharp_ls' }
+        local servers = { 'nil_ls', 'tsserver', 'gopls', 'zls', 'csharp_ls', 'pyright' }
         for _, lsp in ipairs(servers) do
           lspconfig[lsp].setup {
             capabilities = capabilities,

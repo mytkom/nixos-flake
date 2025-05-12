@@ -59,6 +59,13 @@
     # package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = true;
+    settings.KbdInteractiveAuthentication = true;
+    settings.PermitRootLogin = "yes";
+  };
+
   services.xserver.videoDrivers = [ "nvidia" ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -79,6 +86,7 @@
   services.locate.enable = true;
 
   virtualisation.docker.enable = true;
+  virtualisation.docker.enableNvidia = true;
 
   networking.hostName = "old-bunny";
 
