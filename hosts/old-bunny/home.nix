@@ -24,6 +24,7 @@
     config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
+      cplex.releasePath = "/home/mytkom/Documents/ODA/cplex_studio2211.linux_x86_64.bin";
     };
   };
 

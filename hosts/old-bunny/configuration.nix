@@ -25,6 +25,7 @@
     ];
     config = {
       allowUnfree = true;
+      cplex.releasePath = "/home/mytkom/Documents/ODA/cplex_studio2211.linux_x86_64.bin";
     };
   };
 
@@ -45,11 +46,9 @@
   };
 
   # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
+  hardware.graphics.enable = true;
+
+  hardware.nvidia-container-toolkit.enable = true;
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -68,25 +67,28 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.extraModulePackages = [];
+  hardware.enableAllFirmware = true;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
+  boot.kernelModules = [ "88x2bu" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    rtl88x2bu
+  ];
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Warsaw";
   i18n.defaultLocale = "en_US.UTF-8";
-  sound.enable = true;
   security.rtkit.enable = true;
   security.polkit.enable = true;
-  hardware.pulseaudio.enable = true;
+  services.pulseaudio.enable = false;
 
   # NerdFonts picking
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    nerd-fonts.fira-code
+    nerd-fonts.droid-sans-mono
   ];
 
   services.locate.enable = true;
 
   virtualisation.docker.enable = true;
-  virtualisation.docker.enableNvidia = true;
 
   networking.hostName = "old-bunny";
 

@@ -5,7 +5,7 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      shell.program = "${pkgs.zsh}/bin/zsh";
+      terminal.shell.program = "${pkgs.zsh}/bin/zsh";
       font.size = 13.0;
       window.startup_mode = "Windowed";
     };

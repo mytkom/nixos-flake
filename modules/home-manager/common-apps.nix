@@ -4,7 +4,7 @@
       igv
       samtools
       obsidian
-      dbeaver
+      dbeaver-bin
       spotify
       discord
       gimp
@@ -19,6 +19,7 @@
       jetbrains.pycharm-professional
       python311Packages.pyzmq
       vscode-fhs
+      keepassxc
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
