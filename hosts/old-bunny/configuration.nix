@@ -13,6 +13,7 @@
     inputs.self.nixosModules.gnome
     inputs.self.nixosModules.blocked-hosts
     inputs.self.nixosModules.tailscale
+    inputs.self.nixosModules.esprimo-mount
 
     ./hardware-configuration.nix
   ];

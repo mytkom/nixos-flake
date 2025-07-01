@@ -1,4 +1,10 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+let
+  zoteroWrapped = pkgs.writeShellScriptBin "zotero" ''
+    export LD_LIBRARY_PATH="${pkgs.gcc.cc.lib}/lib:$LD_LIBRARY_PATH"
+    exec ${pkgs.zotero}/bin/zotero "$@"
+  '';
+in {
   home.packages = with pkgs; [
       brave
       igv
@@ -20,9 +26,11 @@
       python311Packages.pyzmq
       vscode-fhs
       keepassxc
+      zoteroWrapped
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
     "electron-25.9.0"
   ];
 }
+

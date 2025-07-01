@@ -5,4 +5,5 @@
   gnome = import ./gnome.nix;
   blocked-hosts = import ./blocked-hosts.nix;
   tailscale = import ./tailscale.nix;
+  esprimo-mount = import ./esprimo-mount.nix;
 }
