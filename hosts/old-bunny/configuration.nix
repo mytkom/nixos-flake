@@ -66,6 +66,13 @@
     settings.PermitRootLogin = "yes";
   };
 
+  services.syncthing = {
+    enable = true;
+    user = "mytkom";
+    group = "users";
+    dataDir = "/home/mytkom";
+  };
+
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.enableAllFirmware = true;
