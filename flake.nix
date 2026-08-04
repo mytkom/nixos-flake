@@ -1,6 +1,4 @@
 {
-  description = "Your new nix config";
-
   inputs = {
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -67,6 +65,13 @@
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/levicorpus/home.nix
+        ];
+      };
+      "m.mytkowski@AIC0189" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/aic/home.nix
         ];
       };
     };
