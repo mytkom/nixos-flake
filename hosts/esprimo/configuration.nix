@@ -39,6 +39,10 @@
   my = {
     tailscale.enable = true;
     selfhosted.enable = true;
+    econIngest = {
+      enable = true;
+      ntfy.baseUrl = "http://esprimo:2586";
+    };
     ssh = {
       enable = true;
       # TODO: switch to key-only auth once authorizedKeys are set for mytkom.

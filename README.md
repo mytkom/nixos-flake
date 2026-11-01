@@ -26,7 +26,7 @@ home-manager switch --flake .#m.mytkowski@AIC0189
 
 - `flake.nix` / `flake.lock` - inputs and outputs; `mkHost` / `mkHome` build every config, `vars` holds shared values
 - `hosts/<name>/` - per-machine `configuration.nix`, hardware config and `home.nix`
-- `modules/nixos/` - `common` (applied to every host) plus option-gated modules enabled per host via `my.<name>.enable`: `ssh`, `dev`, `gnome`, `audio`, `printing`, `laptop-power`, `blocked-hosts`, `tailscale`, `esprimo-mount`
+- `modules/nixos/` - `common` (applied to every host) plus option-gated modules enabled per host via `my.<name>.enable`: `ssh`, `dev`, `gnome`, `audio`, `printing`, `laptop-power`, `blocked-hosts`, `tailscale`, `esprimo-mount`, `selfhosted`, `econ-ingest`
 - `modules/home-manager/` - `base` (applied to every home) plus modules imported per host: alacritty, common-apps, app-shortcuts, dconf, git, idasen, nvim (`nvim/init.lua`), zsh, hyprland (waybar + `waybar.css`)
 - `overlays/` - nixpkgs overlays (applied everywhere)
 - `pkgs/` - custom packages (e.g. `alibuild`)

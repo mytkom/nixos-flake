@@ -12,4 +12,5 @@
   tailscale = import ./tailscale.nix;
   esprimo-mount = import ./esprimo-mount.nix;
   selfhosted = import ./selfhosted.nix;
+  econ-ingest = import ./econ-ingest.nix;
 }
