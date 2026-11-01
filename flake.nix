@@ -73,7 +73,6 @@
     homeConfigurations = {
       "mytkom@old-bunny" = mkHome ./hosts/old-bunny/home.nix;
       "mytkom@levicorpus" = mkHome ./hosts/levicorpus/home.nix;
-      "mytkom@esprimo" = mkHome ./hosts/esprimo/home.nix;
       "m.mytkowski@AIC0189" = mkHome ./hosts/aic/home.nix;
     };
   };

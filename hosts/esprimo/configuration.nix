@@ -1,9 +1,25 @@
 {
+  inputs,
+  outputs,
   vars,
   pkgs,
   ...
 }: {
-  imports = [./hardware-configuration.nix];
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    ./hardware-configuration.nix
+  ];
+
+  # Headless server: Home Manager is applied by nixos-rebuild (no separate
+  # `home-manager switch` needed over SSH).
+  home-manager = {
+    useUserPackages = true;
+    extraSpecialArgs = {inherit inputs outputs vars;};
+    users.${vars.user}.imports = [
+      outputs.homeManagerModules.base
+      ./home.nix
+    ];
+  };
 
   networking = {
     hostName = "esprimo";

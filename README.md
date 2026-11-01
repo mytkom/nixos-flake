@@ -8,7 +8,7 @@ Single flake (`nixos-unstable` + Home Manager + nixos-hardware) for `x86_64-linu
 | --- | --- | --- | --- |
 | levicorpus | laptop | ThinkPad T495, R5 3500U, 24GB RAM | NixOS + Home Manager |
 | old-bunny | PC | i5-4460, GTX 960, 32GB RAM | NixOS + Home Manager |
-| esprimo | home lab server | Fujitsu Esprimo Q556, i7-6700T, 16GB RAM | NixOS + Home Manager |
+| esprimo | headless home lab server (SSH only) | Fujitsu Esprimo Q556, i7-6700T, 16GB RAM | NixOS with integrated Home Manager |
 | AIC0189 (`aic`) | work laptop | - | Home Manager only |
 
 ## Usage
@@ -45,5 +45,5 @@ Installed through the `claude-code` Home Manager module from a dedicated `nixpkg
 
 ```sh
 nix flake update nixpkgs-claude   # bump Claude Code only
-home-manager switch --flake .#mytkom@<host>
+home-manager switch --flake .#mytkom@<host>   # not needed on esprimo
 ```
