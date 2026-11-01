@@ -35,5 +35,9 @@ in {
     ocenaudio
   ];
 
-  nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0"
+    # Zotero 10.x builds against this Firefox ESR
+    "firefox-esr-140-bin-unwrapped-140.17.0esr"
+  ];
 }

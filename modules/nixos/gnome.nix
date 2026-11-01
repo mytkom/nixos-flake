@@ -10,6 +10,7 @@
     services.xserver = {
       enable = true;
       xkb.layout = "pl";
+      xkb.options = "caps:escape";
     };
     services.desktopManager.gnome = {
       enable = true;
@@ -24,7 +25,6 @@
       systemPackages = with pkgs; [
         adwaita-icon-theme
         gnomeExtensions.appindicator
-        gnomeExtensions.x11-gestures
         touchegg
         gedit
         qemu

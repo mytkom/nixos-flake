@@ -1,76 +1,54 @@
-# GNOME keyboard shortcuts that focus an app's window or launch it.
+# GNOME shortcuts that cycle an app's windows (round-robin) or launch it when
+# none is open, via the Run or Raise extension (works on Wayland, unlike wmctrl).
 {
-  config,
   pkgs,
   lib,
   ...
 }: let
+  # wm_class is case-sensitive; regexes (between slashes) keep it tolerant.
   appShortcuts = [
     {
-      name = "Alacritty";
-      wmClass = "alacritty";
-      command = "alacritty";
       shortcut = "<Super>q";
+      command = "alacritty";
+      wmClass = "/[Aa]lacritty/";
     }
     {
-      name = "Ferdium";
-      wmClass = "ferdium";
-      command = "ferdium";
       shortcut = "<Super>f";
+      command = "ferdium";
+      wmClass = "/[Ff]erdium/";
     }
     {
-      name = "Zotero";
-      wmClass = "zotero";
-      command = "zotero";
       shortcut = "<Super>z";
+      command = "zotero";
+      wmClass = "/[Zz]otero/";
     }
     {
-      name = "Thunderbird";
-      wmClass = "thunderbird";
-      command = "thunderbird";
       shortcut = "<Super>e";
+      command = "thunderbird";
+      wmClass = "/[Tt]hunderbird/";
     }
     {
-      name = "Chrome";
-      wmClass = "chrome";
-      command = "google-chrome-stable";
       shortcut = "<Super>b";
+      command = "google-chrome-stable";
+      wmClass = "/[Gg]oogle-chrome/";
     }
   ];
 
-  # Per-app focus-or-launch scripts, installed to ~/.config/
-  scriptFiles = builtins.listToAttrs (map (app: {
-      name = "focus-or-launch-${app.name}";
-      value.source = pkgs.writeShellScript "focus-or-launch-${app.name}" ''
-        if ${pkgs.wmctrl}/bin/wmctrl -lx | grep -i ${app.wmClass}; then
-            ${pkgs.wmctrl}/bin/wmctrl -xa ${app.wmClass}
-        else
-            ${app.command} &
-        fi
-      '';
-    })
-    appShortcuts);
-
-  bindingPath = i: "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${toString i}";
-
-  customKeybindings = builtins.listToAttrs (lib.imap1 (i: app: {
-      name = bindingPath i;
-      value = {
-        command = "${config.xdg.configHome}/focus-or-launch-${app.name}";
-        binding = app.shortcut;
-        inherit (app) name;
-      };
-    })
-    appShortcuts);
+  shortcutsConf = lib.concatMapStringsSep "\n" (
+    app: "${app.shortcut},${app.command},${app.wmClass},"
+  )
+  appShortcuts;
 in {
-  home.packages = [pkgs.wmctrl];
+  home.packages = [pkgs.gnomeExtensions.run-or-raise];
 
-  xdg.configFile = scriptFiles;
+  xdg.configFile."run-or-raise/shortcuts.conf".text = shortcutsConf + "\n";
 
-  dconf.settings =
-    {
-      "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings =
-        lib.imap1 (i: _: "/${bindingPath i}/") appShortcuts;
-    }
-    // customKeybindings;
+  dconf.settings = {
+    "org/gnome/shell".enabled-extensions = [
+      "run-or-raise@edvard.cz"
+      "appindicatorsupport@rgcjonas.gmail.com"
+    ];
+    # Drop the old wmctrl-based custom keybindings.
+    "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [];
+  };
 }
