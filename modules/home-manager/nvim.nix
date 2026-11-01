@@ -23,6 +23,7 @@
       cmp_luasnip
       vim-oscyank
       gitsigns-nvim
+      rust-tools-nvim
     ];
     extraPackages = with pkgs; [
       ripgrep
@@ -36,6 +37,7 @@
       nodePackages.typescript-language-server
       gopls
       python3
+      rust-analyzer
       pyright  # Python LSP
       imagemagick # for image rendering
     ];
@@ -99,7 +101,32 @@
             enable = true,
             additional_vim_regex_highlighting = false,
           },
+          incremental_selection = {
+            enable = true,
+            keymaps = {
+              init_selection = "<C-space>",
+              node_incremental = "<C-space>",
+              scope_incremental = false,
+              node_decremental = "<bs>",
+            },
+          },
+          textobjects = {
+            select = {
+              enable = true,
+              lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+
+              keymaps = {
+                ["af"] = "@function.outer", -- select around a function
+                ["if"] = "@function.inner", -- select inner part of a function
+                ["ac"] = "@class.outer",    -- around a class
+                ["ic"] = "@class.inner",    -- inner part of a class
+                ["ab"] = "@block.outer",    -- around block (like if, while, etc.)
+                ["ib"] = "@block.inner",    -- inner block
+              },
+            },
+          },
         }
+
 
         local highlight = {
             "CursorColumn",
@@ -177,12 +204,15 @@
           vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
         end
 
-        vim.cmd [[ autocmd FileType python silent! MoltenInit ]]
+        vim.keymap.set("n", "<leader>mi", function()
+          vim.cmd("MoltenInit --shared")
+        end, { desc = "Molten init (shared kernel)" })
+
 
         -- Keybindings for molten.nvim
         vim.keymap.set("n", "<leader>mr", "<cmd>MoltenEvaluateOperator<cr>", { silent = true, desc = "run operator selection" })
         vim.keymap.set("n", "<leader>ml", "<cmd>MoltenEvaluateLine<cr>", { silent = true, desc = "evaluate line" })
-        vim.keymap.set("v", "<leader>mv", "<C-u><cmd>MoltenEvaluateVisual<cr>gv", { silent = true, desc = "evaluate visual selection" })
+        vim.keymap.set("v", "<leader>mv", ":<C-u>MoltenEvaluateVisual<CR>gv", { silent = true, desc = "evaluate visual selection" })
         vim.keymap.set("n", "<leader>mo", "<cmd>MoltenShowOutput<cr>", { silent = true })
         vim.keymap.set("n", "<leader>mrr", "<cmd>MoltenReevaluateCell<cr>", { silent = true, desc = "re-evaluate cell" })
         vim.keymap.set("n", "<leader>md", "<cmd>MoltenDelete<cr>", { silent = true, desc = "molten delete cell" })
@@ -199,6 +229,38 @@
           }
         end
 
+        -- Rust
+        local opts = {
+          tools = {
+            runnables = {
+              use_telescope = true,
+            },
+            inlay_hints = {
+              auto = true,
+              show_parameter_hints = false,
+              parameter_hints_prefix = "",
+              other_hints_prefix = "",
+            },
+          },
+
+          -- all the opts to send to nvim-lspconfig
+          -- these override the defaults set by rust-tools.nvim
+          -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
+          server = {
+            -- on_attach is a callback called when the language server attachs to the buffer
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = {
+              -- to enable rust-analyzer settings visit:
+              -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+              ["rust-analyzer"] = {
+              },
+            },
+          },
+        }
+
+        require("rust-tools").setup(opts)
+
         lspconfig["clangd"].setup {
           capabilities = capabilities,
           filetypes = { "c", "cpp", "objc", "objcpp", "hpp", "cu", "cuh", "h" },
@@ -207,8 +269,7 @@
             "--background-index",
             "--clang-tidy",
             "--header-insertion=iwyu",
-            "--completion-style=detailed",
-            "--function-arg-placeholders"
+            "--completion-style=detailed"
           },
           init_options = {
             usePlaceholders = true,

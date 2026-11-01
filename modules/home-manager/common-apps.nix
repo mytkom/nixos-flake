@@ -7,6 +7,12 @@ let
 
     appShortcuts = [
     {
+      name = "Alacritty";
+      wmClass = "alacritty";
+      command = "alacritty";
+      shortcut = "<Super>q";
+    }
+    {
       name = "Ferdium";
       wmClass = "ferdium";
       command = "ferdium";
@@ -87,6 +93,9 @@ in {
       ferdium
       thunderbird
       wmctrl
+      anki
+      eduvpn-client
+      ocenaudio
   ];
 
    # Install generated scripts to ~/.config/

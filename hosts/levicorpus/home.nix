@@ -12,6 +12,7 @@
     alacritty
     nvim
     common-apps
+    ssh
   ];
 
   nixpkgs = {

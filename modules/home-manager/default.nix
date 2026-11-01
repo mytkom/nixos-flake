@@ -9,4 +9,5 @@
   nvim = import ./nvim.nix;
   common-apps = import ./common-apps.nix;
   hyprland = import ./hyprland;
+  ssh = import ./ssh.nix;
 }

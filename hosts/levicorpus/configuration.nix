@@ -44,10 +44,9 @@
     NIXOS_OZONE_WL = "1";
   };
 
-  hardware = {
-    opengl.enable = true;
-    pulseaudio.enable = false;
-  };
+  # Enable OpenGL
+  hardware.graphics.enable = true;
+
 
   boot = {
     loader.systemd-boot.enable = true;
@@ -56,9 +55,35 @@
   };
 
   networking = {
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      # ensureProfiles.profiles.uw-vpn = {
+      #   connection = {
+      #     id = "UW VPN";
+      #     type = "vpn";
+      #     autoconnect = "false";
+      #   };
+      #   vpn = {
+      #     service-type = "org.freedesktop.NetworkManager.openconnect";
+      #     gateway = "vpn.uw.edu.pl";
+      #     protocol = "gp";
+      #   };
+      #   ipv4.method = "auto";
+      #   ipv6.method = "auto";
+      # };
+    };
     hostName = "levicorpus";
+    # wg-quick.interfaces.proton = {
+    #   autostart = true;
+    #   configFile = "/home/mytkom/nixos-flake/proton.conf";
+    # };
   };
+
+  # CLI fallback for GlobalProtect SSO (browser-based SAML)
+  environment.systemPackages = with pkgs; [
+    openconnect
+    gpclient
+  ];
 
   # Locales
   time.timeZone = "Europe/Warsaw";
@@ -78,6 +103,7 @@
     pulse.enable = true;
     jack.enable = true;
   };
+  services.pulseaudio.enable = false;
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.settings = {
@@ -96,6 +122,20 @@
       cnijfilter2
     ];
   };
+
+  # For some reason needed for printing
+  services.samba = {
+    enable = true;
+    settings = {
+      "global" = {
+        workgroup = "WORKGROUP";
+        "client min protocol" = "NT1";
+        "client max protocol" = "SMB3";
+        security = "user";
+      };
+    };
+  };
+
 
   services.avahi = {
     enable = true;
@@ -118,6 +158,13 @@
     ensureDefaultPrinter = "Canon3225(MINI)";
   };
 
+  services.syncthing = {
+    enable = true;
+    user = "mytkom";
+    group = "users";
+    dataDir = "/home/mytkom";
+  };
+
   # Battery life
   services = {
     system76-scheduler.settings.cfsProfiles.enable = true;
@@ -125,10 +172,10 @@
       enable = true;
       settings = {
         CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+        CPU_SCALING_GOVERNOR_ON_BAT = "performance";
         STOP_CHARGE_THRESH_BAT1 = "95";
         CPU_MAX_PERF_ON_AC = "100";
-        CPU_MAX_PERF_ON_BAT = "50";
+        CPU_MAX_PERF_ON_BAT = "90";
         AHCI_RUNTIME_PM_ON_BAT="on";
         # RUNTIME_PM_DRIVER_DENYLIST="mei_me nouveau radeon ahci";
         # USB_DENYLIST="1d6b:0002 1d6b:0003 13fe:4300";
@@ -146,26 +193,33 @@
     RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/amdgpu_bl0/brightness"
   '';
 
+  # services.fwupd.enable = true;
+
   # NerdFonts picking
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    nerd-fonts.fira-code
+    nerd-fonts.droid-sans-mono
   ];
 
   # Xserver
   services.xserver = {
     videoDrivers = ["amdgpu"];
-    libinput.enable = true;
   };
 
+  services.libinput.enable = true;
+
   programs.dconf.enable = true;
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
   # Nix-ld
   programs.nix-ld.enable = true;
 
   # Programs
   virtualisation.docker.enable = true;
+  programs.singularity.enable = true;
   programs.zsh.enable = true;
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
 
   # Users
   users.users = {
@@ -177,6 +231,8 @@
     };
   };
   users.defaultUserShell = pkgs.zsh;
+
+
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
