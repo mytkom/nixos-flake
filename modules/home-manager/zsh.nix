@@ -6,7 +6,7 @@
     btop
     tldr
     git
-    neofetch
+    fastfetch # neofetch was removed from nixpkgs
     fzf
     font-awesome
     findutils
@@ -40,7 +40,7 @@
        "git"
       ];
     };
-    initExtra = ''
+    initContent = ''
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
     '';
