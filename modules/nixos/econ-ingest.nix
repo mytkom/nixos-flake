@@ -125,6 +125,7 @@ in {
           "-${bin} check-staleness"
           "-${bin} cross-check"
           "-${bin} company risk"
+          "-${bin} extracts --limit 60"
           "-${cfg.repoDir}/.venv/bin/econ-mcp sync"
         ];
       };
