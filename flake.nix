@@ -1,5 +1,5 @@
 {
-  description = "Your new nix config";
+  description = "mytkom's Nix Config: flake-based, with home-manager";
 
   inputs = {
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
@@ -67,6 +67,13 @@
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/levicorpus/home.nix
+        ];
+      };
+      "mytkom@esprimo" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/esprimo/home.nix
         ];
       };
     };
