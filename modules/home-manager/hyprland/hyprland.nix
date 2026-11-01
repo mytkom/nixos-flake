@@ -1,4 +1,9 @@
-{ config, pkgs, ... }: { wayland.windowManager.hyprland = {
+{
+  config,
+  pkgs,
+  ...
+}: {
+  wayland.windowManager.hyprland = {
     enable = true;
     extraConfig = ''
       exec-once = swaybg -i ${./assets/wallpaper.jpg} -m fill
@@ -28,31 +33,31 @@
 
       general {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
-    
+
         gaps_in = 3
         gaps_out = 5
         border_size = 3
         col.active_border = rgba(22221eff) rgba(102536ff) 45deg
         col.inactive_border = rgba(595959aa)
-    
+
         layout = dwindle
-    
+
         # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
         allow_tearing = false
       }
 
-      
+
       decoration {
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
-      
+
           rounding = 10
-      
+
           blur {
               enabled = true
               size = 3
               passes = 1
           }
-      
+
           drop_shadow = true
           shadow_range = 4
           shadow_render_power = 3
@@ -115,6 +120,6 @@
       bind=, XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
       binde=, XF86MonBrightnessUp,exec, brillo -q -A 5
       binde=, XF86MonBrightnessDown,exec, brillo -q -U 5
-      '';
+    '';
   };
 }

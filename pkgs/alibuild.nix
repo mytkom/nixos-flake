@@ -1,6 +1,9 @@
-{ lib, python310, fetchPypi }:
-
-python310.pkgs.buildPythonApplication rec {
+{
+  lib,
+  python3,
+  fetchPypi,
+}:
+python3.pkgs.buildPythonApplication rec {
   pname = "alibuild";
   version = "1.14.6";
 
@@ -9,8 +12,11 @@ python310.pkgs.buildPythonApplication rec {
     hash = "sha256-gPHLo0fTWZLZBOXnReKfkZgXLoDK2Hjh43azvIq0J4w=";
   };
 
+  pyproject = true;
+  build-system = with python3.pkgs; [setuptools setuptools-scm];
+
   doCheck = false;
-  propagatedBuildInputs = with python310.pkgs; [
+  propagatedBuildInputs = with python3.pkgs; [
     requests
     pyyaml
     boto3
@@ -22,6 +28,6 @@ python310.pkgs.buildPythonApplication rec {
     homepage = "https://alisw.github.io/alibuild/";
     description = "Build tool for ALICE experiment software";
     license = licenses.gpl3;
-    maintainers = with maintainers; [ ktf ];
+    maintainers = with maintainers; [ktf];
   };
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.neovim = {
     enable = true;
     withPython3 = true; # molten-nvim is a python remote plugin
@@ -42,17 +42,19 @@
       python3
       imagemagick # for image rendering
     ];
-    extraLuaPackages = ps: with ps; [
-      magick # for image rendering
-    ];
-    extraPython3Packages = ps: with ps; [
-      pynvim
-      jupyter-client
-      cairosvg # for image rendering
-      pnglatex # for image rendering
-      plotly # for image rendering
-      pyperclip
-    ];
+    extraLuaPackages = ps:
+      with ps; [
+        magick # for image rendering
+      ];
+    extraPython3Packages = ps:
+      with ps; [
+        pynvim
+        jupyter-client
+        cairosvg # for image rendering
+        pnglatex # for image rendering
+        plotly # for image rendering
+        pyperclip
+      ];
     initLua = builtins.readFile ./nvim/init.lua;
   };
 }

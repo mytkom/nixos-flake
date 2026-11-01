@@ -1,0 +1,242 @@
+* {
+    border: none;
+    border-radius: 0px;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    min-height: 0;
+    margin: 0;
+}
+
+window#waybar {
+    background-color: transparent;
+    color: #ffffff;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+
+#workspaces button {
+    background: @gradient@;
+    color: @text-color@;
+    border-radius: 20px;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    background: rgba(16,37,54,1);
+    color: @text-color@;
+    border-bottom: 1px solid #ffffff;
+
+}
+
+#workspaces button.focused {
+    background: #1f1f1f;
+}
+
+#workspaces button.focused:hover, #workspaces button.active {
+    color: @text-color@;
+    border-bottom: 1px solid #ffffff;
+
+}
+
+#workspaces button.urgent {
+    background-color: #eb4d4b;
+}
+
+#mode {
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-media,
+#custom-launcher,
+#custom-power,
+#tray,
+#mode,
+#idle_inhibitor,
+#mpd {
+    padding: 5px 10px;
+    color: @text-color@;
+}
+
+#window,
+#workspaces {
+    margin: 0px 4px;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0px;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0px;
+}
+
+#clock {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+    border-radius: 0px 20px 20px 0px;
+    margin-right: 4px;
+}
+
+#battery.charging, #battery.plugged {
+    color: #ffffff;
+    background-color: #26A65B;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+label:focus {
+    background-color: #000000;
+}
+
+#battery {
+    background-color: #fa8bff;
+    background-image: @gradient@;
+    color: @text-color@;
+}
+
+#cpu {
+    background-color: #fa8bff;
+    background-image: @gradient@;
+    color: @text-color@;
+}
+
+#memory {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+}
+
+#disk {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+}
+
+#backlight {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+
+}
+
+#network {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+}
+
+#network.disconnected {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: red;
+}
+
+#pulseaudio {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+}
+
+#pulseaudio.muted {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: red;
+}
+
+#temperature {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#tray {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+}
+
+#idle_inhibitor {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    border-radius: 20px 0px 0px 20px;
+
+}
+
+#idle_inhibitor.activated {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+    border-radius: 20px 0px 0px 20px;
+
+}
+
+#language {
+    background-color: #FA8BFF;
+    background-image: @gradient@;
+    color: @text-color@;
+    min-width: 16px;
+}
+
+#keyboard-state {
+    background: #97e1ad;
+    color: #000000;
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0px 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.2);
+}

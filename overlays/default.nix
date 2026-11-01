@@ -1,23 +1,11 @@
-# This file defines overlays
-{inputs, ...}: {
-  # This one brings our custom packages from the 'pkgs' directory
-  additions = final: _prev: import ../pkgs {pkgs = final;};
+# Overlays applied to every NixOS host and Home Manager config (see flake.nix).
+_: {
+  # Brings our custom packages from the 'pkgs' directory
+  additions = final: _prev: import ../pkgs final;
 
-  # This one contains whatever you want to overlay
-  # You can change versions, add patches, set compilation flags, anything really.
+  # Version overrides, patches, compilation flags, etc.
   # https://nixos.wiki/wiki/Overlays
-  modifications = final: prev: {
-    # example = prev.example.overrideAttrs (oldAttrs: rec {
-    # ...
-    # });
-  };
-
-  # When applied, the unstable nixpkgs set (declared in the flake inputs) will
-  # be accessible through 'pkgs.unstable'
-  unstable-packages = final: _prev: {
-    unstable = import inputs.nixpkgs-unstable {
-      system = final.system;
-      config.allowUnfree = true;
-    };
+  modifications = _final: _prev: {
+    # example = prev.example.overrideAttrs (old: { ... });
   };
 }

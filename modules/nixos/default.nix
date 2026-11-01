@@ -1,8 +1,12 @@
-# Add your reusable NixOS modules to this directory, on their own file (https://nixos.wiki/wiki/Module).
-# These should be stuff you would like to share with others, not your personal configurations.
+# Personal NixOS modules. Option-based ones are inert until enabled via `my.<name>.enable`.
 {
-  # List your module files here
+  common = import ./common.nix;
+  ssh = import ./ssh.nix;
+  dev = import ./dev.nix;
   gnome = import ./gnome.nix;
+  audio = import ./audio.nix;
+  printing = import ./printing.nix;
+  laptop-power = import ./laptop-power.nix;
   blocked-hosts = import ./blocked-hosts.nix;
   tailscale = import ./tailscale.nix;
   esprimo-mount = import ./esprimo-mount.nix;

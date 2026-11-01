@@ -1,34 +1,36 @@
- { pkgs, ... }:
 {
-  # Xserver
-  services.xserver = {
-    enable = true;
-    xkb.layout = "pl";
-    desktopManager.gnome = {
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  options.my.gnome.enable = lib.mkEnableOption "GNOME desktop with fonts and desktop basics";
+
+  config = lib.mkIf config.my.gnome.enable {
+    services.xserver = {
+      enable = true;
+      xkb.layout = "pl";
+    };
+    services.desktopManager.gnome = {
       enable = true;
       extraGSettingsOverrides = ''
-      [org.gnome.desktop.input-sources]
-      xkb-options=['caps:escape']
+        [org.gnome.desktop.input-sources]
+        xkb-options=['caps:escape']
       '';
     };
-    displayManager.gdm = {
-      enable = true;
-    };
-  };
-  
-  # Gnome
-  environment = {
-    systemPackages = with pkgs; [
-      adwaita-icon-theme
-      gnomeExtensions.appindicator
-      gnomeExtensions.x11-gestures
-      touchegg
-      gedit
-      qemu
-    ];
-    gnome.excludePackages = (with pkgs; [
+    services.displayManager.gdm.enable = true;
+
+    environment = {
+      systemPackages = with pkgs; [
+        adwaita-icon-theme
+        gnomeExtensions.appindicator
+        gnomeExtensions.x11-gestures
+        touchegg
+        gedit
+        qemu
+      ];
+      gnome.excludePackages = with pkgs; [
         cheese
-        gnome-photos
         gnome-tour
         gnome-music
         gnome-terminal
@@ -41,10 +43,18 @@
         iagno # go game
         hitori # sudoku game
         atomix # puzzle game
-    ]);
-  };
-  # Set up the Touchegg daemon for trackpad gestures
-  services.touchegg = {
-    enable = true;
+      ];
+    };
+
+    # Touchegg daemon for trackpad gestures
+    services.touchegg.enable = true;
+
+    security.rtkit.enable = true;
+    security.polkit.enable = true;
+
+    fonts.packages = with pkgs; [
+      nerd-fonts.fira-code
+      nerd-fonts.droid-sans-mono
+    ];
   };
 }

@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
     vim
     wget
@@ -37,7 +36,7 @@
     oh-my-zsh = {
       enable = true;
       plugins = [
-       "git"
+        "git"
       ];
     };
     initContent = ''
