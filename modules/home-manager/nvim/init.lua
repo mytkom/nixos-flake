@@ -227,7 +227,7 @@ vim.lsp.config("clangd", {
   },
 })
 
-vim.lsp.enable({ "nil_ls", "gopls", "zls", "csharp_ls", "pyright", "ruff", "ts_ls", "clangd", "lua_ls" })
+vim.lsp.enable({ "nil_ls", "gopls", "zls", "csharp_ls", "pyright", "ruff", "ts_ls", "clangd", "lua_ls", "rust_analyzer" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)

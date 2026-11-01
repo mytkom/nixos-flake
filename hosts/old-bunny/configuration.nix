@@ -19,6 +19,7 @@
     tailscale.enable = true;
     esprimoMount.enable = true;
     dev.enable = true;
+    syncthing.enable = true;
     ssh = {
       enable = true;
       # TODO: switch to key-only auth once authorizedKeys are set for mytkom.
@@ -48,13 +49,6 @@
       # package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
     enableAllFirmware = true;
-  };
-
-  services.syncthing = {
-    enable = true;
-    user = "mytkom";
-    group = "users";
-    dataDir = "/home/mytkom";
   };
 
   users.users.mytkom = {

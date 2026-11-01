@@ -7,6 +7,12 @@
 }: let
   appShortcuts = [
     {
+      name = "Alacritty";
+      wmClass = "alacritty";
+      command = "alacritty";
+      shortcut = "<Super>q";
+    }
+    {
       name = "Ferdium";
       wmClass = "ferdium";
       command = "ferdium";

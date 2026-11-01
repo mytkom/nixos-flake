@@ -18,10 +18,17 @@
     blockedHosts.enable = true;
     tailscale.enable = true;
     dev.enable = true;
+    syncthing.enable = true;
     audio.enable = true;
     printing.enable = true;
     laptopPower.enable = true;
   };
+
+  # CLI fallback for GlobalProtect SSO (browser-based SAML)
+  environment.systemPackages = with pkgs; [
+    openconnect
+    gpclient
+  ];
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
@@ -37,6 +44,12 @@
 
   programs.dconf.enable = true;
   services.udev.packages = [pkgs.gnome-settings-daemon];
+
+  programs.singularity.enable = true;
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
 
   programs.zsh.enable = true;
 

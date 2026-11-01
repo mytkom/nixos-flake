@@ -17,6 +17,18 @@
       ];
     };
 
+    # Needed for printing via the university SMB print server
+    # (NT1 is an old, insecure protocol; note this also enables the smbd service).
+    services.samba = {
+      enable = true;
+      settings.global = {
+        workgroup = "WORKGROUP";
+        "client min protocol" = "NT1";
+        "client max protocol" = "SMB3";
+        security = "user";
+      };
+    };
+
     services.avahi = {
       enable = true;
       nssmdns4 = true;

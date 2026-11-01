@@ -5,5 +5,7 @@ _: {
       name = "mytkom";
       email = "marek.mytkowski.mm@gmail.com";
     };
+    # Global gitignore (~/.config/git/ignore)
+    ignores = ["shell.nix" "flake.nix"];
   };
 }

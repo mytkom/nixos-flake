@@ -8,5 +8,6 @@
   nvim = import ./nvim.nix;
   common-apps = import ./common-apps.nix;
   app-shortcuts = import ./app-shortcuts.nix;
+  claude-code = import ./claude-code.nix;
   hyprland = import ./hyprland;
 }

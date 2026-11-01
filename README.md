@@ -8,7 +8,7 @@ Single flake (`nixos-unstable` + Home Manager + nixos-hardware) for `x86_64-linu
 | --- | --- | --- | --- |
 | levicorpus | laptop | ThinkPad T495, R5 3500U, 24GB RAM | NixOS + Home Manager |
 | old-bunny | PC | i5-4460, GTX 960, 32GB RAM | NixOS + Home Manager |
-| esprimo | home lab server | Fujitsu Esprimo Q556, i7-6700T, 16GB RAM | NixOS |
+| esprimo | home lab server | Fujitsu Esprimo Q556, i7-6700T, 16GB RAM | NixOS + Home Manager |
 | AIC0189 (`aic`) | work laptop | - | Home Manager only |
 
 ## Usage
@@ -37,4 +37,13 @@ home-manager switch --flake .#m.mytkowski@AIC0189
 nix develop      # alejandra, statix, deadnix
 nix fmt          # format
 nix flake check  # evaluates all outputs, checks formatting
+```
+
+## Claude Code
+
+Installed through the `claude-code` Home Manager module from a dedicated `nixpkgs-claude` input, so it updates independently of the rest of the system:
+
+```sh
+nix flake update nixpkgs-claude   # bump Claude Code only
+home-manager switch --flake .#mytkom@<host>
 ```

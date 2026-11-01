@@ -3,6 +3,7 @@
   common = import ./common.nix;
   ssh = import ./ssh.nix;
   dev = import ./dev.nix;
+  syncthing = import ./syncthing.nix;
   gnome = import ./gnome.nix;
   audio = import ./audio.nix;
   printing = import ./printing.nix;

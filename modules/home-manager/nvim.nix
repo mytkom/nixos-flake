@@ -36,6 +36,7 @@
       clang-tools
       typescript-language-server
       gopls
+      rust-analyzer
       pyright # python types/navigation
       ruff # python lint + format
       lua-language-server

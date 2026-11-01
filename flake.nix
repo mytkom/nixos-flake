@@ -1,6 +1,12 @@
 {
+  description = "mytkom's Nix Config: flake-based, with home-manager";
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    # Second nixpkgs pin used ONLY for claude-code, so it can be bumped alone:
+    #   nix flake update nixpkgs-claude
+    nixpkgs-claude.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -67,6 +73,7 @@
     homeConfigurations = {
       "mytkom@old-bunny" = mkHome ./hosts/old-bunny/home.nix;
       "mytkom@levicorpus" = mkHome ./hosts/levicorpus/home.nix;
+      "mytkom@esprimo" = mkHome ./hosts/esprimo/home.nix;
       "m.mytkowski@AIC0189" = mkHome ./hosts/aic/home.nix;
     };
   };

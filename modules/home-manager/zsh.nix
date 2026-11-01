@@ -1,5 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    zip
+    unzip
     vim
     wget
     btop

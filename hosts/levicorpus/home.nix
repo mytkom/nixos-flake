@@ -6,6 +6,7 @@
     zsh
     alacritty
     nvim
+    claude-code
     common-apps
   ];
 
