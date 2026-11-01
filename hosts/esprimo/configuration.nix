@@ -30,6 +30,9 @@
       allowedTCPPorts = [8384 22000 9090 11434 3333 445 3456 8001 7272];
       allowedUDPPorts = [22000 21027];
     };
+    # Wake-on-LAN (magic packet). NetworkManager owns enp1s0 and resets its WoL
+    # setting on activation, so set the default there (64 = NM "magic" flag).
+    networkmanager.settings.connection."ethernet.wake-on-lan" = 64;
     # wg-quick.interfaces.proton = {
     #   autostart = true;
     #   configFile = "/root/nixos-flake/proton.conf";
