@@ -11,4 +11,5 @@
   blocked-hosts = import ./blocked-hosts.nix;
   tailscale = import ./tailscale.nix;
   esprimo-mount = import ./esprimo-mount.nix;
+  selfhosted = import ./selfhosted.nix;
 }

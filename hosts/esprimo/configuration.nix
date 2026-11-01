@@ -38,6 +38,7 @@
 
   my = {
     tailscale.enable = true;
+    selfhosted.enable = true;
     ssh = {
       enable = true;
       # TODO: switch to key-only auth once authorizedKeys are set for mytkom.
