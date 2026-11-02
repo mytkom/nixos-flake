@@ -21,6 +21,7 @@
           WF_DB_PATH = "/data/wealthfolio.db";
           WF_CORS_ALLOW_ORIGINS = "http://localhost:7272";
           CONNECT_API_URL = "https://api.wealthfolio.app";
+          WF_MCP_ENABLED = "true";
         };
         environmentFiles = ["/var/lib/secrets/wealthfolio.env"];
       };
