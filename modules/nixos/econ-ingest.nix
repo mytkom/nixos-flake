@@ -126,6 +126,9 @@ in {
           "-${bin} cross-check"
           "-${bin} company risk"
           "-${bin} extracts --limit 60"
+          "-${bin} edinet update --days 10"
+          "-${bin} dart update"
+          "-${bin} esef update"
           "-${cfg.repoDir}/.venv/bin/econ-mcp sync"
         ];
       };
