@@ -31,7 +31,26 @@
     loader.systemd-boot.enable = true;
     kernelPackages = pkgs.linuxPackages_6_12;
     kernelModules = ["88x2bu"];
-    extraModulePackages = with config.boot.kernelPackages; [rtl88x2bu];
+    extraModulePackages = with config.boot.kernelPackages; [
+      # The driver's own `make install` just copies 88x2bu.ko, but
+      # aggregateModules now expects a per-module 88x2bu.ko.cer next to it.
+      # Install through kbuild's modules_install (as nixpkgs does for
+      # broadcom-sta), which signs the module and writes that certificate.
+      (rtl88x2bu.overrideAttrs (old: {
+        makeFlags =
+          old.makeFlags
+          ++ [
+            "INSTALL_MOD_PATH=${placeholder "out"}"
+            "INSTALL_MOD_DIR=kernel/net/wireless"
+          ];
+        installFlags = [
+          "-C"
+          "${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
+          "M=$(PWD)"
+        ];
+        installTargets = ["modules_install"];
+      }))
+    ];
   };
 
   environment.systemPackages = [pkgs.qemu];
