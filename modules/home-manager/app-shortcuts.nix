@@ -44,10 +44,15 @@ in {
   xdg.configFile."run-or-raise/shortcuts.conf".text = shortcutsConf + "\n";
 
   dconf.settings = {
-    "org/gnome/shell".enabled-extensions = [
-      "run-or-raise@edvard.cz"
-      "appindicatorsupport@rgcjonas.gmail.com"
-    ];
+    "org/gnome/shell" = {
+      enabled-extensions = [
+        "run-or-raise@edvard.cz"
+        "appindicatorsupport@rgcjonas.gmail.com"
+      ];
+      # GNOME's global "Extensions" switch; if it gets flipped off (e.g. by the
+      # Extensions app or after a shell upgrade) every shortcut above dies.
+      disable-user-extensions = false;
+    };
     # Drop the old wmctrl-based custom keybindings.
     "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [];
   };
