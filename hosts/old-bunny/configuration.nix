@@ -65,7 +65,8 @@
       powerManagement.enable = false;
       open = false;
       nvidiaSettings = true;
-      # package = config.boot.kernelPackages.nvidiaPackages.stable;
+      # GTX 960 (Maxwell) was dropped from the 595+ branches; it needs the 580 legacy driver.
+      package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
     };
     enableAllFirmware = true;
   };
