@@ -47,3 +47,12 @@ Installed through the `claude-code` Home Manager module from a dedicated `nixpkg
 nix flake update nixpkgs-claude   # bump Claude Code only
 home-manager switch --flake .#mytkom@<host>   # not needed on esprimo
 ```
+
+## Codex
+
+Same setup: the `codex` Home Manager module installs OpenAI Codex from its own `nixpkgs-codex` input:
+
+```sh
+nix flake update nixpkgs-codex    # bump Codex only
+home-manager switch --flake .#mytkom@<host>   # not needed on esprimo
+```

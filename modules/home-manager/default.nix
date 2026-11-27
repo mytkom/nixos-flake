@@ -9,5 +9,6 @@
   common-apps = import ./common-apps.nix;
   app-shortcuts = import ./app-shortcuts.nix;
   claude-code = import ./claude-code.nix;
+  codex = import ./codex.nix;
   hyprland = import ./hyprland;
 }

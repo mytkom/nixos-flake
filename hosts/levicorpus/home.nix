@@ -7,6 +7,7 @@
     alacritty
     nvim
     claude-code
+    codex
     common-apps
   ];
 
