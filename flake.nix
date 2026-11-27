@@ -8,6 +8,10 @@
     #   nix flake update nixpkgs-claude
     nixpkgs-claude.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Likewise for codex:
+    #   nix flake update nixpkgs-codex
+    nixpkgs-codex.url = "github:nixos/nixpkgs/nixos-unstable";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 

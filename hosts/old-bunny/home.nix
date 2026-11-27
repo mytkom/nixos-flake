@@ -4,6 +4,7 @@
     alacritty
     nvim
     git
+    codex
     common-apps
     claude-code
   ];
