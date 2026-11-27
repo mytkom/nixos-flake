@@ -5,13 +5,17 @@
   pkgs,
   vars,
   ...
-}: {
+}: let
+  codexPkgs = import inputs.nixpkgs-codex {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    config = vars.nixpkgsConfig;
+  };
+in {
   programs.codex = {
     enable = true;
-    package =
-      (import inputs.nixpkgs-codex {
-        inherit (pkgs.stdenv.hostPlatform) system;
-        config = vars.nixpkgsConfig;
-      }).codex;
+    package = codexPkgs.codex;
   };
+
+  # Codex's Linux sandbox looks up `bwrap` on PATH.
+  home.packages = [codexPkgs.bubblewrap];
 }
